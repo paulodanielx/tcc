@@ -20,9 +20,13 @@ app.post('/org', async (request) => {
      nome, cnpj
     }
   } ) 
-
   return org
 })
+
+app.get('/org', ()=>{
+
+})
+
  
 const HOST = process.env.HOST
 const PORT = process.env.PORT
