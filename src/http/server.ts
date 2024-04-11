@@ -1,32 +1,18 @@
 import fastify from "fastify";
-import { PrismaClient } from "@prisma/client";
 import 'dotenv/config'
-import { z } from "zod" 
+import { createOrg } from "./routes/create-org";
+import { createEmployee } from "./routes/create-employee";
+import { createCP } from "./routes/create-cp";
+import { getOrg } from "./routes/get-org";
+import { getEmployee } from "./routes/get-employee";
 
 const app = fastify ()
 
-const prisma = new PrismaClient()
-
-app.post('/org', async (request) => {
-  const createOrgBody = z.object({
-    nome: z.string(),
-    cnpj: z.string()
-  })
-
-  const {nome, cnpj} = createOrgBody.parse(request.body)
-
-  const org = await prisma.org.create({
-    data:{
-     nome, cnpj
-    }
-  } ) 
-  return org
-})
-
-app.get('/org', ()=>{
-
-})
-
+app.register(createOrg)
+app.register(createEmployee)
+app.register(createCP)
+app.register(getOrg)
+app.register(getEmployee)
  
 const HOST = process.env.HOST
 const PORT = process.env.PORT

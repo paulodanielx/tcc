@@ -14,9 +14,43 @@ datasource db {
 }
 
 model Org {
+  id           String         @id @default(uuid())  
+  nome         String
+  cnpj         String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  employee     Employee[]
+  collectPoint CollectPoint[]
+}
+
+model Employee {
   id        String   @id @default(uuid())
   nome      String
-  cnpj      String
+  cpf       String
+  orgId     String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  org       Org      @relation(fields: [orgId], references: [id])
+}
+
+model CollectPoint {
+  id     String  @id @default(uuid())
+  cep    String
+  rua    String
+  bairro String
+  numero Int
+  orgId  String
+  org    Org     @relation(fields: [orgId], references: [id])
+  Batch  Batch[]
+}
+
+model Batch {
+  id             String   @id @default(uuid())
+  status         String
+  peso           Float
+  reciclavel     Boolean
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  collectPointId String
+
+  collectPoint CollectPoint @relation(fields: [collectPointId], references: [id])
 }
