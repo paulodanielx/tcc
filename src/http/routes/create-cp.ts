@@ -10,7 +10,8 @@ export async function createCP(app: FastifyInstance){
       bairro: z.string(),
       numero: z.number(),
       orgId: z.string()
-    })     
+    })  
+       
     const {cep, rua, bairro, numero, orgId} = createCPBody.parse(request.body) 
 
     const collectPoint = await prisma.collectPoint.create({
